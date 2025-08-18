@@ -1,20 +1,29 @@
 import os
-from dotenv import load_dotenv # pyright: ignore[reportMissingImports]
+from dotenv import load_dotenv 
 
-# Load environment variables from .env file
 load_dotenv()
 
 class Config:
     @property
     def GEMINI_API_KEY(self) -> str:
-        value = os.getenv("AIzaSyB1WbRxcGG-BlaFiBkhQTw7h9PVyBXKVm4")
+        value = os.getenv("GEMINI_API_KEY")
         if not value:
             raise ValueError("GEMINI_API_KEY environment variable is required.")
         return value
 
     @property
     def QDRANT_URL(self) -> str:
-        return os.getenv("QDRANT_URL", "https://be012654-1dc6-4856-950d-04fc5edff456.us-east4-0.gcp.cloud.qdrant.io:6333")
+        return os.getenv(
+            "QDRANT_URL",
+            "https://add3c7ea-12d3-4ed6-b736-6684ac64deb5.us-east4-0.gcp.cloud.qdrant.io"
+        )
+
+    @property
+    def QDRANT_API_KEY(self) -> str:
+        value = os.getenv("QDRANT_API_KEY")
+        if not value:
+            raise ValueError("QDRANT_API_KEY environment variable is required.")
+        return value
 
     @property
     def QDRANT_COLLECTION(self) -> str:
@@ -31,5 +40,13 @@ class Config:
     @property
     def SAFE_MODE(self) -> bool:
         return os.getenv("SAFE_MODE", "false").lower() == "true"
+
+    @property
+    def POSTGRES_URL(self) -> str:
+        return os.getenv("POSTGRES_URL")
+
+    @property
+    def POSTGRES_DSN(self) -> str:
+        return os.getenv("POSTGRES_DSN")
 
 config = Config()
