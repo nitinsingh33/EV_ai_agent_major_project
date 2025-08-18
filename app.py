@@ -1,0 +1,71 @@
+import streamlit as st
+import requests
+
+API_URL = "http://127.0.0.1:8000"
+API_KEY = st.secrets.get("AIzaSyB1WbRxcGG-BlaFiBkhQTw7h9PVyBXKVm4", "")
+
+st.set_page_config(page_title="EV AI Agent", layout="wide")
+
+st.sidebar.header("Upload Files")
+uploaded_files = st.sidebar.file_uploader(
+    "Select PDF/CSV files", type=["pdf", "csv"], accept_multiple_files=True
+)
+category = st.sidebar.selectbox("Category", ["pricing", "strategy", "product", "company", "general"])
+if st.sidebar.button("Ingest Files") and uploaded_files:
+    files = [("files", (f.name, f.read(), f.type)) for f in uploaded_files]
+    resp = requests.post(
+        f"{API_URL}/ingest/files",
+        files=files,
+        data={"category": category},
+        headers={"x-api-key": API_KEY}
+    )
+    if resp.ok:
+        st.sidebar.success(f"Ingested: {resp.json()}")
+    else:
+        st.sidebar.error(f"Error: {resp.text}")
+
+st.title("EV AI Agent Chat")
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+        if msg.get("category"):
+            st.markdown(f"**Category:** `{msg['category']}`")
+        if msg.get("citations"):
+            st.markdown("**Citations:**")
+            for c in msg["citations"]:
+                st.markdown(f"- {c.get('filename', 'Unknown')} (p.{c.get('page', 'N/A')})")
+
+query = st.chat_input("Ask a question...")
+if query:
+    st.session_state.messages.append({"role": "user", "content": query})
+    with st.chat_message("user"):
+        st.markdown(query)
+    with st.spinner("Thinking..."):
+        resp = requests.post(
+            f"{API_URL}/chat",
+            json={"query": query},
+            headers={"x-api-key": API_KEY}
+        )
+        if resp.ok:
+            data = resp.json()
+            answer = data.get("answer", "")
+            category = data.get("category", "")
+            citations = data.get("citations", [])
+            st.session_state.messages.append({
+                "role": "assistant",
+                "content": answer,
+                "category": category,
+                "citations": citations
+            })
+            with st.chat_message("assistant"):
+                st.markdown(answer)
+                st.markdown(f"**Category:** `{category}`")
+                if citations:
+                    st.markdown("**Citations:**")
+                    for c in citations:
+                        st.markdown(f"- {c.get('filename', 'Unknown')} (p.{c.get('page', 'N/A')})")
+        else:
+            st.error(f"Error: {resp.text}")
