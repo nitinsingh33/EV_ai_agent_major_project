@@ -69,3 +69,13 @@ if query:
                         st.markdown(f"- {c.get('filename', 'Unknown')} (p.{c.get('page', 'N/A')})")
         else:
             st.error(f"Error: {resp.text}")
+            
+# ---------------- Footer ----------------
+st.markdown("""
+<hr style="margin-top:2rem; margin-bottom:1rem;">
+
+<div style='text-align:center; color:#666; font-size:0.85rem;'>
+    <b>Hero EV AI Agent – Strategy Insights</b><br>
+    Confidential · For internal use by Hero MotoCorp Strategy Team only
+</div>
+""", unsafe_allow_html=True)
