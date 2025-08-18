@@ -17,6 +17,11 @@ def require_api_key(request: Request):
             detail="Invalid or missing API key."
         )
 
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "Backend is live 🚀"}
+
+
 @app.get("/health")
 async def health():
     return {"status": "ok"}

@@ -49,7 +49,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-API_URL = "http://127.0.0.1:8000"
+API_URL = "https://ev-ai-agent-major-project.onrender.com"
 API_KEY = st.secrets.get("AIzaSyB1WbRxcGG-BlaFiBkhQTw7h9PVyBXKVm4", "")
 
 st.set_page_config(page_title="EV AI Agent", layout="wide")
