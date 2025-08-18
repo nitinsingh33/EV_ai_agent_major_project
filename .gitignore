@@ -1,85 +1,33 @@
-# ==========================
 # Python
-# ==========================
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
 *.pyd
-*.so
-*.egg
-*.egg-info/
-dist/
-build/
-
-# ==========================
-# Virtual Environment
-# ==========================
-venv/
-env/
-.venv/
-ENV/
-.env.bak
-.env.local
-
-# ==========================
-# Environment & Secrets
-# ==========================
-.env
-*.env
-apikeys.json
-credentials.json
-
-# ==========================
-# Data Files (local only, not for repo)
-# ==========================
-/data/
 *.db
-*.sqlite3
-*.sqlite
-*.log
-logs/
-uploads/
-tmp/
-*.csv
-*.pdf
 
-# ==========================
-# Jupyter / IPython
-# ==========================
-.ipynb_checkpoints
-*.ipynb
+# Virtual env
+.env
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
-# ==========================
-# OS / Editor
-# ==========================
-.DS_Store
-Thumbs.db
+# IDE / Editor
 .vscode/
 .idea/
 *.swp
 
-# ==========================
-# Node (if frontend has React/Next)
-# ==========================
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.next/
-out/
-build/
-.cache/
-*.lock
+# OS files
+.DS_Store
+Thumbs.db
 
-# ==========================
-# Streamlit specific
-# ==========================
+# Logs
+*.log
+
+# Streamlit cache
 .streamlit/
 
-# ==========================
-# Docker
-# ==========================
-*.pid
-*.seed
-*.pid.lock
-docker-compose.override.yml
+# Local data uploads
+uploads/
+data/
