@@ -2,13 +2,17 @@ from qdrant_client import QdrantClient
 from qdrant_client.http import models as qdrant_models
 from core.config import config
 from rag.embeddings import embed_texts
+import os
 
 
 COLLECTION_NAME = config.QDRANT_COLLECTION
 VECTOR_SIZE = 384
 DISTANCE = qdrant_models.Distance.COSINE
 
-client = QdrantClient(url=config.QDRANT_URL)
+client = QdrantClient(
+    url=config.QDRANT_URL,
+    api_key=config.QDRANT_API_KEY,
+)
 
 def ensure_collection():
     if COLLECTION_NAME not in [c.name for c in client.get_collections().collections]:
