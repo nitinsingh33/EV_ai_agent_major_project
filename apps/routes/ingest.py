@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Form, Depends, HTTPException
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from typing import List
 from rag.vectorstore import upsert
 from data.ingest_pdf import parse_pdf
@@ -19,13 +19,15 @@ async def ingest_files(
         filename = file.filename
         if filename.lower().endswith(".pdf"):
             chunks = parse_pdf(content, filename, category)
+            all_chunks.extend(chunks)
+            by_file[filename] = len(chunks)
+            inserted += len(chunks)
         elif filename.lower().endswith(".csv"):
-            chunks = parse_csv(content, filename, category)
+            rows = parse_csv(content, filename, category)
+            by_file[filename] = len(rows)
+            inserted += len(rows)
         else:
             raise HTTPException(status_code=400, detail=f"Unsupported file type: {filename}")
-        by_file[filename] = len(chunks)
-        inserted += len(chunks)
-        all_chunks.extend(chunks)
     if all_chunks:
         upsert(all_chunks)
     return {"inserted": inserted, "by_file": by_file}

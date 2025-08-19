@@ -9,3 +9,6 @@ streamlit
 requests
 google-generativeai
 python-multipart
+asyncpg
+sqlalchemy
+supabase

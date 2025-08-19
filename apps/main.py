@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
 from core.config import config
-from apps.routes import ingest, chat
+from apps.routes import ingest, chat, company
 from core.logging import configure_logging, logger
 import uuid
 from fastapi import Response
@@ -56,6 +56,7 @@ async def add_request_id_middleware(request: Request, call_next):
 
 app.include_router(ingest.router)
 app.include_router(chat.router)
+app.include_router(company.router)
 
 if __name__ == "__main__":
     import uvicorn, os
