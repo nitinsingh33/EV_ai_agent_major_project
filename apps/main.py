@@ -56,3 +56,8 @@ async def add_request_id_middleware(request: Request, call_next):
 
 app.include_router(ingest.router)
 app.include_router(chat.router)
+
+if __name__ == "__main__":
+    import uvicorn, os
+    port = int(os.environ.get("PORT", 8000))  # Render se PORT env var lega
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
