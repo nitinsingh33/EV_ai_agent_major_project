@@ -1,3 +1,4 @@
+#entry point for Streamlit app(frontend)
 import streamlit as st
 import requests
 

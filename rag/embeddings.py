@@ -1,3 +1,4 @@
+#embeddings generator(text -> vector conversion using Gemini etc.)
 from typing import List
 from core.config import config
 

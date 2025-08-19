@@ -1,3 +1,4 @@
+#Configuration file (ENV variables load karna, API keys, DB URLs etc.)
 import os
 from dotenv import load_dotenv 
 
@@ -48,5 +49,20 @@ class Config:
     @property
     def POSTGRES_DSN(self) -> str:
         return os.getenv("POSTGRES_DSN")
+    
+    # ✅ Supabase Config
+    @property
+    def SUPABASE_URL(self) -> str:
+        value = os.getenv("SUPABASE_URL")
+        if not value:
+            raise ValueError("SUPABASE_URL environment variable is required.")
+        return value
+
+    @property
+    def SUPABASE_KEY(self) -> str:
+        value = os.getenv("SUPABASE_KEY")
+        if not value:
+            raise ValueError("SUPABASE_KEY environment variable is required.")
+        return value
 
 config = Config()

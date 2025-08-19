@@ -1,3 +1,4 @@
+#App entry point
 from fastapi import FastAPI, Request, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
 from core.config import config

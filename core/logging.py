@@ -1,3 +1,4 @@
+#Custom logging setup (structured logs, log level config)
 import structlog
 import logging
 

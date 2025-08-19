@@ -1,3 +1,4 @@
+#csv data ingestion pipelines (csv parse into vectorestore DB)
 import uuid
 import csv
 from typing import List, Dict
@@ -9,12 +10,11 @@ def parse_csv(file_bytes: bytes, filename: str, category: str) -> List[Dict]:
     reader = csv.DictReader(text_io)
     rows = []
     for idx, row in enumerate(reader):
-        # Insert each row into Supabase
         data = {
             "id": str(uuid.uuid4()),
             "model_name": row.get("model_name"),
-            "price": row.get("price"),
-            "sales": row.get("sales"),
+            "price": float(row.get("price") or 0),
+            "sales": int(row.get("sales") or 0),
             "features": row.get("features"),
         }
         supabase.table("company_data").insert(data).execute()
