@@ -2,11 +2,11 @@
 import streamlit as st
 import requests
 
-API_URL = "https://ev-ai-agent-major-project.onrender.com"
+API_URL = "http://localhost:8000"
 
 # Secure API_KEY fetch
 try:
-    API_KEY = st.secrets["GEMINI_API_KEY"]  # 👈 FIX: define API_KEY properly
+    API_KEY = st.secrets["API_KEY"]  # 👈 FIX: define API_KEY properly
 except KeyError:
     st.error("GEMINI_API_KEY not found in Streamlit secrets! Please set it in Render → Environment Variables.")
     st.stop()
