@@ -6,9 +6,9 @@ API_URL = "https://ev-ai-agent-major-project.onrender.com"
 
 # Secure API_KEY fetch
 try:
-    API_KEY = st.secrets["API_KEY"]
+    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 except KeyError:
-    st.error("API_KEY not found in Streamlit secrets! Please set it in Render → Environment Variables.")
+    st.error("GEMINI_API_KEY not found in Streamlit secrets! Please set it in Render → Environment Variables.")
     st.stop()
 
 st.set_page_config(page_title="EV AI Agent", layout="wide")

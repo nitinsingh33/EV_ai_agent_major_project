@@ -1,4 +1,4 @@
-#Gemini API integration
+#handle Gemini API integration
 import google.generativeai as genai
 import time
 from core.config import config
