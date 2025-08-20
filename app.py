@@ -6,7 +6,7 @@ API_URL = "https://ev-ai-agent-major-project.onrender.com"
 
 # Secure API_KEY fetch
 try:
-    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+    API_KEY = st.secrets["GEMINI_API_KEY"]  # 👈 FIX: define API_KEY properly
 except KeyError:
     st.error("GEMINI_API_KEY not found in Streamlit secrets! Please set it in Render → Environment Variables.")
     st.stop()
@@ -26,7 +26,7 @@ if st.sidebar.button("Ingest Files") and uploaded_files:
         f"{API_URL}/ingest/files",
         files=files,
         data={"category": category},
-        headers={"x-api-key": API_KEY}
+        headers={"x-api-key": API_KEY}  # 👈 now works
     )
     if resp.ok:
         st.sidebar.success(f"Ingested: {resp.json()}")
@@ -61,7 +61,7 @@ if query:
         resp = requests.post(
             f"{API_URL}/chat",
             json={"query": query},
-            headers={"x-api-key": API_KEY}
+            headers={"x-api-key": API_KEY}  # 👈 FIXED
         )
         if resp.ok:
             data = resp.json()
