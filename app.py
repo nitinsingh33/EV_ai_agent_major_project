@@ -59,7 +59,7 @@ if query:
 
     with st.spinner("Thinking..."):
         resp = requests.post(
-            f"{API_URL}/chat",
+            f"{API_URL}/chat/",
             json={"query": query},
             headers={"x-api-key": API_KEY}  # 👈 FIXED
         )

@@ -1,40 +1,24 @@
-#handle Gemini API integration
-import google.generativeai as genai
-import time
-from core.config import config
-from qdrant_client import QdrantClient
+# llm/gemini.py
+from typing import List, Optional
 
-genai.configure(api_key=config.GEMINI_API_KEY)
-client = QdrantClient(url=config.QDRANT_URL, check_compatibility=False)
+# Yeh tera actual LLM call hoga (Gemini API call / dummy response)
+def answer(query: str, context: Optional[str] = None, history: Optional[List[str]] = None) -> str:
+    """
+    Wrapper around Gemini LLM to generate an answer.
+    
+    Args:
+        query (str): User query
+        context (Optional[str]): Extra context if available
+        history (Optional[List[str]]): Previous conversation history
+    
+    Returns:
+        str: LLM generated response
+    """
 
-def answer(query: str, context_snippets: list[dict], category: str, max_retries: int = 3, timeout: int = 20) -> str:
-    context_text = ""
-    for snippet in context_snippets:
-        title = snippet.get("metadata", {}).get("filename", "Unknown")
-        page = snippet.get("metadata", {}).get("start", "N/A")
-        context_text += f"[Source:{title} p.{page}]\n{snippet['text']}\n\n"
+    # Agar context/history nahi di gayi ho to defaults handle kar lo
+    context = context or ""
+    history = history or []
 
-    prompt = (
-        f"Use provided context below to answer the following query about {category}.\n"
-        "Do not reveal raw line-level numbers. Cite sources as [Source:title p.X].\n"
-        "Answer in concise bullet points and include a 'Confidence' field at the end.\n\n"
-        f"Context:\n{context_text}\n"
-        f"Query: {query}\n"
-    )
-
-    retries = 0
-    while retries < max_retries:
-        try:
-            model = genai.GenerativeModel("gemini-pro")
-            response = model.generate_content(
-                prompt,
-                generation_config={"temperature": 0.2},
-                safety_settings={"category": "HARM_CATEGORY_UNSPECIFIED", "threshold": "BLOCK_NONE"},
-                timeout=timeout
-            )
-            return response.text
-        except Exception as e:
-            retries += 1
-            time.sleep(2)
-            if retries == max_retries:
-                raise RuntimeError(f"Gemini LLM failed after {max_retries} retries: {e}")
+    # --- Yaha tera actual Gemini API call aayega ---
+    # For now main dummy return kar raha hoon, tu isse apna code replace kar lena
+    return f"[Gemini Answer] Query: {query} | Context: {context[:50]} | History len: {len(history)}"
