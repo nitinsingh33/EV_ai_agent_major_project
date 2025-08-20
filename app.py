@@ -4,7 +4,7 @@ import requests
 
 API_URL = "https://ev-ai-agent-major-project.onrender.com"
 
-# ✅ Secure API_KEY fetch
+# Secure API_KEY fetch
 try:
     API_KEY = st.secrets["API_KEY"]
 except KeyError:
